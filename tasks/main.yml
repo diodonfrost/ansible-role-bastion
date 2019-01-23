@@ -1,2 +1,5 @@
 ---
 # tasks file for ansible-role-bastion
+
+- name: setting up bastion
+  include_tasks: setup-bastion.yml
