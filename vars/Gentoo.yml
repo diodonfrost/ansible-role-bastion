@@ -1,4 +1,4 @@
-sshd_service: ssh
+sshd_service: sshd
 sshd_path: /etc/ssh/sshd_config
 
 bastion_shell_path: /usr/bin/bastion/
