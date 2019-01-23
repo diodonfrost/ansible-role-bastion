@@ -1,6 +1,7 @@
 # Test bastion setting
 
 sshd_service = 'sshd'
+sshd_service = 'ssh' if os.family == "debian"
 
 control 'bastion-01' do
   impact 1.0
