@@ -1,5 +1,5 @@
-bastion_mnt="/var/log/bastion"
-bastion_log="bastion.log"
+bastion_mnt="{{ bastion_logs_directory }}"
+bastion_log="{{ bastion_logs }}"
 # Check that the SSH client did not supply a command. Only SSH to instance should be allowed.
 export Allow_SSH="ssh"
 export Allow_SCP="scp"
@@ -16,7 +16,7 @@ log_file=`echo "$log_shadow_file_location"`
 DATE_TIME_WHOAMI="`whoami`:`date "+%Y-%m-%d %H:%M:%S"`"
 LOG_ORIGINAL_COMMAND=`echo "$DATE_TIME_WHOAMI:$SSH_ORIGINAL_COMMAND"`
 echo "$LOG_ORIGINAL_COMMAND" >> "${bastion_mnt}/${bastion_log}"
-log_dir="/var/log/bastion/"
+log_dir="{{ bastion_logs_directory }}"
 
 else
 # The "script" program could be circumvented with some commands

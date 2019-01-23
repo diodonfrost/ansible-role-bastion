@@ -1,5 +1,8 @@
 ---
 # tasks file for ansible-role-bastion
 
+- name: Set OS dependent variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: setting up bastion
   include_tasks: setup-bastion.yml

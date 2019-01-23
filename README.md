@@ -1,5 +1,8 @@
-Role Name
-=========
+# ansible-role-bastion
+
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-diodonfrost.bastion-660198.svg)](https://galaxy.ansible.com/diodonfrost/bastion)
+[![Build Status](https://travis-ci.org/diodonfrost/ansible-role-bastion.svg?branch=master)](https://travis-ci.org/diodonfrost/ansible-role-bastion)
+
 
 A brief description of the role goes here.
 
