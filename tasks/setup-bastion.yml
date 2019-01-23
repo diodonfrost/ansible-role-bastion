@@ -1,0 +1,23 @@
+# Params bastion settings
+
+- name: Create bastion directory
+  file:
+    path: "{{ bastion_shell_path }}"
+    owner: "{{ bastion_user }}"
+    group: "{{ bastion_group }}"
+    state: directory
+
+- name: Set file for log all command
+  template:
+    src: shell.j2
+    dest: "{{ bastion_shell_path }}/shell"
+    owner: "{{ bastion_user }}"
+    group: "{{ bastion_group }}"
+    mode: 0755
+
+- name: Params sshd for log all commandes
+  lineinfile:
+    path: "{{ sshd_path }}"
+    regexp: '^ForceCommand'
+    line: 'ForceCommand /usr/bin/bastion/shell'
+  notify: restart sshd

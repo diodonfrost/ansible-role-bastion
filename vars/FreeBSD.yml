@@ -1,0 +1,5 @@
+sshd_service: sshd
+
+bastion_shell_path: /usr/bin/bastion/
+bastion_user: root
+bastion_group: wheel
