@@ -1,11 +1,5 @@
 # Params bastion settings
 
-- name: Check if selinux is present
-  command: getenforce
-  register: sestatus
-  changed_when: false
-  ignore_errors: yes
-
 - name: Create bastion directory
   file:
     path: "{{ bastion_shell_path }}"
@@ -19,19 +13,7 @@
     dest: "{{ bastion_shell_path }}/shell"
     owner: "{{ bastion_user }}"
     group: "{{ bastion_group }}"
-    serole: ssh_exec_t
     mode: 0755
-  when: sestatus.stdout == '0'
-
-- name: Set file for log all command without selinux
-  template:
-    src: shell.j2
-    dest: "{{ bastion_shell_path }}/shell"
-    owner: "{{ bastion_user }}"
-    group: "{{ bastion_group }}"
-    serole: ssh_exec_t
-    mode: 0755
-  when: sestatus.stdout != '0'
 
 - name: Params sshd for log all commandes
   lineinfile:

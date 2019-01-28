@@ -1,8 +1,0 @@
-sshd_service: sshd
-sshd_path: /etc/ssh/sshd_config
-
-bastion_shell_path: /usr/bin/bastion/
-bastion_user: root
-bastion_group: wheel
-bastion_logs_directory: /var/log/bastion
-bastion_logs: bastion.log

@@ -4,5 +4,4 @@ sshd_path: /etc/ssh/sshd_config
 bastion_shell_path: /usr/bin/bastion/
 bastion_user: root
 bastion_group: root
-bastion_logs_directory: /var/log/bastion
-bastion_logs: bastion.log
+bastion_logs_directory: /var/log/bastion/

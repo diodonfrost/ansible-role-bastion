@@ -31,7 +31,7 @@ control 'bastion-03'
   impact 1.0
   title 'Bastion shell'
   desc 'Bastion shell file should be present'
-  describe file(bastion_shell) di
+  describe file(bastion_shell) do
     it { should exist }
     its('owner') { should eq 'root' }
     its('mode') { should cmp '0755' }
