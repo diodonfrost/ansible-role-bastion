@@ -1,5 +1,11 @@
 # Params bastion settings
 
+- name: Check if selinux is present
+  command: getenforce
+  register: sestatus
+  changed_when: false
+  ignore_errors: yes
+
 - name: Create bastion directory
   file:
     path: "{{ bastion_shell_path }}"
@@ -7,17 +13,43 @@
     group: "{{ bastion_group }}"
     state: directory
 
-- name: Set file for log all command
+- name: Set file for log all command with selinux
   template:
     src: shell.j2
     dest: "{{ bastion_shell_path }}/shell"
     owner: "{{ bastion_user }}"
     group: "{{ bastion_group }}"
+    serole: ssh_exec_t
     mode: 0755
+  when: sestatus.stdout == '0'
+
+- name: Set file for log all command without selinux
+  template:
+    src: shell.j2
+    dest: "{{ bastion_shell_path }}/shell"
+    owner: "{{ bastion_user }}"
+    group: "{{ bastion_group }}"
+    serole: ssh_exec_t
+    mode: 0755
+  when: sestatus.stdout != '0'
 
 - name: Params sshd for log all commandes
   lineinfile:
     path: "{{ sshd_path }}"
     regexp: '^ForceCommand'
     line: 'ForceCommand /usr/bin/bastion/shell'
+  notify: restart sshd
+
+- name: Disable tcp forwarding
+  lineinfile:
+    path: "{{ sshd_path }}"
+    regexp: '^AllowTcpForwarding'
+    line: 'AllowTcpForwarding no'
+  notify: restart sshd
+
+- name: Disable x11 forwarding
+  lineinfile:
+    path: "{{ sshd_path }}"
+    regexp: '^X11Forwarding'
+    line: 'X11Forwarding no'
   notify: restart sshd
