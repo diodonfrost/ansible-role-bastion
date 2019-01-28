@@ -4,38 +4,138 @@
 [![Build Status](https://travis-ci.org/diodonfrost/ansible-role-bastion.svg?branch=master)](https://travis-ci.org/diodonfrost/ansible-role-bastion)
 
 
-A brief description of the role goes here.
+This role provide a compliance for install bastion on your target host.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role was developed using Ansible 2.7 Backwards compatibility is not guaranteed.
+Use `ansible-galaxy install diodonfrost.bastion` to install the role on your system.
 
-Role Variables
---------------
+Supported platforms:
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+- name: EL
+  versions:
+    - 7
+    - 6
+    - 5
+- name: Fedora
+  versions:
+    - 29
+    - 28
+    - 27
+    - 26
+- name: Debian
+  versions:
+    - stretch
+    - jessie
+    - wheezy
+    - squeeze
+- name: Ubuntu
+  versions:
+    - bionic
+    - xenial
+    - trusty
+    - precise
+    - trusty
+- name: OracleLinux
+  versions:
+    - 7
+    - 6
+- name: Amazon
+  versions:
+    - 2017.12
+    - 2016.03
+    - 2013.09
+- name: opensuse
+  versions:
+    - 13.2
+    - 42.1
+    - 42.2
+    - 42.3
+- name: SLES
+  versions:
+    - 11
+    - 12
+    - 15
+- name: ArchLinux
+  versions:
+    - any
+- name: Gentoo
+  versions:
+    - stage3
+```
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
-Example Playbook
-----------------
+## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+This is a sample playbook file for deploying the Ansible Galaxy bastion role in a localhost.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- hosts: localhost
+  become: true
+  roles:
+    - role: diodonfrost.bastion
+```
 
-License
--------
+## Local Testing
 
-BSD
+The preferred way of locally testing the role is to use Docker. You will have to install Docker on your system.
 
-Author Information
-------------------
+You can also use vagrant and Virtualbox with vagrant to run tests locally. You will have to install Virtualbox and Vagrant on your system. For all our tests we use test-kitchen.
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Next install test-kitchen:
+
+```shell
+# Install dependencies
+gem install bundler
+bundle install
+```
+
+### Testing with Docker
+
+```shell
+# List all tests with kitchen
+kitchen list
+
+# fast test on one machine
+kitchen test default-centos-7
+
+# test on all machines
+kitchen test
+
+# for development, create environment
+kitchen create default-centos-7
+
+# Apply ansible playbook
+kitchen converge default-centos-7
+
+# Apply inspec tests
+kitchen verify default-centos-7
+```
+
+### Testing with Virtualbox
+
+```shell
+# Specify kitchen file on Linux
+export KITCHEN_YAML=.kitchen-vagrant.yml
+
+# fast test on one machine
+kitchen test default-centos-7
+```
+
+## License
+
+Apache 2
+
+## Resources
+
+[bastion on aws](https://docs.aws.amazon.com/quickstart/latest/linux-bastion/architecture.html)
+
+## Author Information
+
+This role was created in 2019 by diodonfrost.
