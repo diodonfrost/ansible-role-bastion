@@ -1,2 +1,8 @@
 ---
 # defaults file for ansible-role-bastion
+
+# Set ssh user to record ssh Sessions
+bastion_users:
+  - bastion-user
+  - bastion-user2
+  - bastion-user3

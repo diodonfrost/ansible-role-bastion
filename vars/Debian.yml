@@ -5,3 +5,5 @@ bastion_shell_path: /usr/bin/bastion/
 bastion_user: root
 bastion_group: root
 bastion_logs_directory: /var/log/bastion/
+
+script_command_path: /usr/bin/script

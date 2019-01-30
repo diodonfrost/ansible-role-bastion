@@ -5,6 +5,8 @@ sshd_service = 'ssh' if os.family == "debian"
 
 sshd_configfile = '/etc/ssh/sshd_config'
 
+bastion_shell = '/usr/bin/bastion/shell'
+
 control 'bastion-01' do
   impact 1.0
   title 'sshd service'
@@ -22,20 +24,27 @@ control 'bastion-02' do
     it { should exist }
     it { should be_file }
     its('owner') { should eq 'root' }
-    its('mode') { should cmp '0644' }
     its('content') { should match /ForceCommand \/usr\/bin\/bastion\/shell/ }
   end
 end
 
-control 'bastion-03'
+control 'bastion-03' do
+  impact 1.0
+  title 'Bastion group'
+  desc 'Group bastion shoud be present'
+  describe group('bastion') do
+    it { should exist }
+  end
+end
+
+control 'bastion-04' do
   impact 1.0
   title 'Bastion shell'
   desc 'Bastion shell file should be present'
   describe file(bastion_shell) do
     it { should exist }
+    it { should be_file }
     its('owner') { should eq 'root' }
-    its('mode') { should cmp '0755' }
-    its('sha256sum') { should eq
-    '0f4b7d8460a54f45aaf384ae290c52f710f1f5eedc145fadda26a082b743b6b1' }
+    its('sha256sum') { should eq 'e958c4071e5165034ce78bc297ec1cf79572f01e078c6d19b45b8de8120b62a7' }
   end
 end

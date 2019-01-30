@@ -66,6 +66,21 @@ Supported platforms:
     - stage3
 ```
 
+## Role Variables
+
+This role has multiple variables. The defaults for all these variables are the following:
+
+```yaml
+---
+# defaults file for ansible-role-bastion
+
+# Set ssh user to record ssh Sessions
+bastion_users:
+  - bastion-user
+  - bastion-user2
+  - bastion-user3
+```
+
 ## Dependencies
 
 None
@@ -135,6 +150,7 @@ Apache 2
 ## Resources
 
 [bastion on aws](https://docs.aws.amazon.com/quickstart/latest/linux-bastion/architecture.html)
+[bastion configuration](https://aws.amazon.com/blogs/security/how-to-record-ssh-sessions-established-through-a-bastion-host/)
 
 ## Author Information
 

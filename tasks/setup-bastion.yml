@@ -1,37 +1,53 @@
 # Params bastion settings
 
-- name: Create bastion directory
+- name: Create bastion group
+  group:
+    name: bastion
+    state: present
+
+- name: Create bastion user
+  user:
+    name: "{{ item }}"
+    comment: "user {{ item }}"
+    group: bastion
+  with_items: "{{ bastion_users }}"
+
+- name: Set gid on script command
+  file:
+    path: "{{ script_command_path }}"
+    owner: root
+    group: bastion
+    mode: "g+s"
+
+- name: Create bastion shell directory
   file:
     path: "{{ bastion_shell_path }}"
     owner: "{{ bastion_user }}"
     group: "{{ bastion_group }}"
     state: directory
 
-- name: Set file for log all command with selinux
+- name: Create bastion log directory
+  file:
+    path: "{{ bastion_logs_directory }}"
+    owner: root
+    group: bastion
+    mode: 0770
+    state: directory
+
+- name: Set file for log all command
   template:
     src: shell.j2
     dest: "{{ bastion_shell_path }}/shell"
-    owner: "{{ bastion_user }}"
-    group: "{{ bastion_group }}"
+    owner: root
+    group: bastion
     mode: 0755
 
 - name: Params sshd for log all commandes
-  lineinfile:
+  blockinfile:
     path: "{{ sshd_path }}"
-    regexp: '^ForceCommand'
-    line: 'ForceCommand /usr/bin/bastion/shell'
-  notify: restart sshd
-
-- name: Disable tcp forwarding
-  lineinfile:
-    path: "{{ sshd_path }}"
-    regexp: '^AllowTcpForwarding'
-    line: 'AllowTcpForwarding no'
-  notify: restart sshd
-
-- name: Disable x11 forwarding
-  lineinfile:
-    path: "{{ sshd_path }}"
-    regexp: '^X11Forwarding'
-    line: 'X11Forwarding no'
+    block: |
+      Match User {{ bastion_users|join(',') }}
+        ForceCommand /usr/bin/bastion/shell
+        AllowTcpForwarding no
+        X11Forwarding no
   notify: restart sshd
