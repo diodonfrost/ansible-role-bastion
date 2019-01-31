@@ -5,6 +5,3 @@
   service:
     name: "{{ sshd_service }}"
     state: restarted
-
-- name: remount /proc
-  shell: mount -o remount,rw,hidepid=2 /proc

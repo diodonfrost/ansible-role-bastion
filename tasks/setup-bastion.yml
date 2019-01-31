@@ -30,7 +30,7 @@
   file:
     path: "{{ bastion_logs_directory }}"
     owner: root
-    group: bastion
+    group: root
     mode: 0770
     state: directory
 
@@ -51,3 +51,10 @@
         AllowTcpForwarding no
         X11Forwarding no
   notify: restart sshd
+
+- name: Prevent users from viewing process ownerd by other users
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^proc '
+    line: 'proc /proc proc defaults,hidepid=2 0 0'
+  when: ansible_virtualization_type != "docker"
