@@ -7,10 +7,9 @@
 
 - name: Create bastion user
   user:
-    name: "{{ item }}"
-    comment: "user {{ item }}"
+    name: bastion
+    comment: "bastion user"
     group: bastion
-  with_items: "{{ bastion_users }}"
 
 - name: Set gid on script command
   file:
@@ -29,9 +28,10 @@
 - name: Create bastion log directory
   file:
     path: "{{ bastion_logs_directory }}"
-    owner: root
-    group: root
+    owner: bastion
+    group: bastion
     mode: 0770
+    recurse: yes
     state: directory
 
 - name: Set file for log all command
